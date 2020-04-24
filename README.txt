@@ -52,3 +52,35 @@
             return sb.ToString();
         }
     }
+
+         static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+            
+            BasicUsage();
+
+            FactoryBasicUsage();
+            Console.ReadLine();
+        }
+
+        //基础用法
+        static void BasicUsage()
+        {
+            Console.WriteLine("基础用法");
+            FoodAbstract foodAbstract = new Rice();
+            Console.WriteLine(foodAbstract.BeginEat());
+            foodAbstract = new Moodles();
+            Console.WriteLine(foodAbstract.BeginEat());
+        }
+
+        /// <summary>
+        /// 工厂用法
+        /// </summary>
+        static void FactoryBasicUsage()
+        {
+            Console.WriteLine("工厂用法");
+            var food = EatFactory.FoodFactory(FoodEnum.Moodles);
+            Console.WriteLine(food.BeginEat());
+            food = EatFactory.FoodFactory(FoodEnum.Rice);
+            Console.WriteLine(food.BeginEat());
+        }
