@@ -1,4 +1,5 @@
-﻿using Common.EatSomething;
+﻿using Common.Alipay;
+using Common.EatSomething;
 using Common.EatSomething.Enums;
 using Common.EatSomething.Food;
 using System;
@@ -37,6 +38,18 @@ namespace Demo
             Console.WriteLine(food.BeginEat());
             food = EatFactory.FoodFactory(FoodEnum.Rice);
             Console.WriteLine(food.BeginEat());
+        }
+
+        public void TestAliPay() 
+        {
+            try
+            {
+                new AliPay().GetQrCodeUrl("", 0, "", "", "");
+            }
+            catch (Exception e)
+            {
+
+            }
         }
     }
 }

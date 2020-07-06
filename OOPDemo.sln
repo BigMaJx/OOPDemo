@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.txt = README.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{89E23927-36DE-4B79-8F7E-52AF10DBC8D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDK.AopSdk", "SDK.AopSdk\SDK.AopSdk.csproj", "{8B0C8AA3-F455-4310-A68B-515F516CDD3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,16 @@ Global
 		{8835F71F-E699-4DF2-8EB3-EA068085A083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8835F71F-E699-4DF2-8EB3-EA068085A083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8835F71F-E699-4DF2-8EB3-EA068085A083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B0C8AA3-F455-4310-A68B-515F516CDD3E} = {89E23927-36DE-4B79-8F7E-52AF10DBC8D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {414D8C10-F0A4-4F63-ADDA-515880D1837A}
