@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Com.Ctrip.Framework.Apollo;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Common
@@ -9,7 +11,7 @@ namespace Common
     public class MyConfigs
     {
         private static IConfiguration _config;
-        public static IConfiguration Configs
+        private static IConfiguration Configs
         {
             get
             {
@@ -19,28 +21,36 @@ namespace Common
                     var configBuilder = new ConfigurationBuilder()
                            .SetBasePath(path)
                            .AddJsonFile("appsettings.json", true, true);
-                    _config = configBuilder.Build();
 
-                    //阿波罗配置
-                    //var apollo = configBuilder.Build().GetSection("apollo");
-                    //string nameSpace = apollo["NameSpace"];
-                    //if (nameSpace.IsNullOrEmpty())
-                    //{
-                    //    _config = configBuilder.AddApollo(apollo).AddDefault().Build();
-                    //}
-                    //else
-                    //{
-                    //    _config = configBuilder.AddApollo(apollo).AddDefault().AddNamespace(nameSpace).Build();
-                    //}
+                    var apollo = configBuilder.Build().GetSection("apollo");
+                    string nameSpace = apollo["NameSpace"];
+                    if (string.IsNullOrEmpty(nameSpace))
+                    {
+                        _config = configBuilder.AddApollo(apollo).AddDefault().Build();
+                    }
+                    else
+                    {
+                        var apolloDefault = configBuilder.AddApollo(apollo).AddDefault();
+                        var nameSpaces = nameSpace.Split(',',';');
+                        foreach (var nameSpaceItem in nameSpaces)
+                        {
+                            apolloDefault = apolloDefault.AddNamespace(nameSpaceItem);
+                        }
+                        _config = apolloDefault.Build();
+                    }
                 }
                 return _config;
             }
         }
-
         public static string GetConfig(string key)
         {
-            string value = Configs.GetValue(key, "");
+            var value = GetConfig<string>(key);
             return value;
         }
+        public static T GetConfig<T>(string key)
+        {            
+            T value = Configs.GetValue<T>(key);
+            return value;
+        } 
     }
 }

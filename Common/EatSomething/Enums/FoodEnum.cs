@@ -6,10 +6,14 @@ namespace Common.EatSomething.Enums
 {
     public enum FoodEnum
     {
-        //面条
+        /// <summary>
+        /// 面条
+        /// </summary>
         Moodles,
-        
-        //米饭
+
+        /// <summary>
+        /// 米饭
+        /// </summary>
         Rice
     }
 }
