@@ -45,9 +45,53 @@ namespace Api.Controllers
             var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
             if (ft != null) ft.AllowSynchronousIO = true;
 
-            var data = GetData();
-            OnExportExcel(data, rs.Body);
+            var data = GetData();//获取数据
+            OnExportExcel(data, rs.Body);//导出数据
             return new EmptyResult(); 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"> DisplayName 名称为列名 </param>
+        /// <param name="output"></param>
+        private void OnExportExcel<T>(IEnumerable<T> list, Stream output)
+        {
+            var csv = new StreamWriter(output, Encoding.UTF8, 1024, true);
+            var headers = GetPropertyByType<T>();//反射获取DisplayName列头            
+            var title = string.Join(",", headers.Values.ToList());
+            csv.WriteLine(title); 
+            var itemType = Activator.CreateInstance<T>().GetType();
+            // 内容
+            foreach (var entity in list)
+            {
+                var lineSb = new StringBuilder();
+                foreach (var item in headers)
+                {
+                    var entityValue = itemType.GetProperty(item.Key);//获取对应列名
+                    if (entityValue != null)
+                    {
+                        var value = entityValue.GetValue(entity);
+                        value = value == null ? string.Empty : value;
+                        lineSb.Append(value + ",");
+                    } 
+                }
+                var result = lineSb.ToString();
+                if (result.Length > 0)
+                {
+                    result = result.Substring(0, result.Length - 1);
+                }
+                csv.WriteLine(result);
+            }
+        }
+
+        public class TL
+        {
+            [DisplayName("序号")]
+            public int Id { get; set; }
+
+            [DisplayName("名称")]
+            public string Name { get; set; }
         }
 
         private IEnumerable<TL> GetData()
@@ -82,43 +126,7 @@ namespace Api.Controllers
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="list"> DisplayName 名称为列名 </param>
-        /// <param name="output"></param>
-        private void OnExportExcel<T>(IEnumerable<T> list, Stream output)
-        {
-            var csv = new StreamWriter(output, Encoding.UTF8, 1024, true);
-            var headers = GetPropertyByType<T>();
-            // 列头
-            var title = string.Join(",", headers.Values.ToList());
-            csv.WriteLine(title);
-
-            var itemType = Activator.CreateInstance<T>().GetType();
-            // 内容
-            foreach (var entity in list)
-            {
-                var lineSb = new StringBuilder();
-                foreach (var item in headers)
-                {
-                    var entityValue = itemType.GetProperty(item.Key);//获取对应列名
-                    if (entityValue != null)
-                    {
-                        var value = entityValue.GetValue(entity);
-                        value = value == null ? string.Empty : value;
-                        lineSb.Append(value + ",");
-                    }
-
-                }
-                var result = lineSb.ToString();
-                if (result.Length > 0)
-                {
-                    result = result.Substring(0, result.Length - 1);
-                }
-                csv.WriteLine(result);
-            } 
-        }
+  
 
         private Dictionary<string, string> GetPropertyByType<In>()
         {
@@ -143,14 +151,6 @@ namespace Api.Controllers
         }
 
 
-
-        public class TL 
-        {
-            [DisplayName("序号")]
-            public int Id { get; set; }
-
-            [DisplayName("名称")]
-            public string Name { get; set; }
-        }
+     
     }
 }
