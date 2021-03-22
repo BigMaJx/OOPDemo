@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{89E23927-36D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDK.AopSdk", "SDK.AopSdk\SDK.AopSdk.csproj", "{8B0C8AA3-F455-4310-A68B-515F516CDD3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{EC6A4B82-8BC1-4175-8017-712C114B8888}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B0C8AA3-F455-4310-A68B-515F516CDD3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC6A4B82-8BC1-4175-8017-712C114B8888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC6A4B82-8BC1-4175-8017-712C114B8888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC6A4B82-8BC1-4175-8017-712C114B8888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC6A4B82-8BC1-4175-8017-712C114B8888}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
