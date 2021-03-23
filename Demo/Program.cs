@@ -17,16 +17,16 @@ namespace Demo
 
 
 
-            for (int j = 1; j <= 20; j++)
-            {
-                Console.WriteLine($" ");
-                for (int i = 1; i <= j; i++)
-                {
-                    YangHuiSanjian.Show(j, i);
-                }
-            }
+            //for (int j = 1; j <= 20; j++)
+            //{
+            //    Console.WriteLine($" ");
+            //    for (int i = 1; i <= j; i++)
+            //    {
+            //        YangHuiSanjian.Show(j, i);
+            //    }
+            //}
             Console.WriteLine($" ");
-            for (int j = 1; j <= 20; j++)
+            for (int j = 1; j <= 1000; j++)
             {
                 Console.WriteLine($" ");
                 for (int i = 1; i <= j; i++)

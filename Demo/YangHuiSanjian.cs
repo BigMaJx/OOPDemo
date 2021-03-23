@@ -136,8 +136,9 @@ namespace Demo
         }
 
 
-        private static ConcurrentDictionary<int, List<int>> AllYHSJ = new ConcurrentDictionary<int, List<int>>();
+        private static ConcurrentDictionary<int, List<decimal>> AllYHSJ = new ConcurrentDictionary<int, List<decimal>>();
 
+        //能支持到100行
         /// <summary>
         /// 使用下个是上两个数之和 计算
         /// </summary>
@@ -146,7 +147,7 @@ namespace Demo
         /// <returns></returns>
         public static object Cnm2(int n, int m) 
         {
-            var pre =  AllYHSJ.LastOrDefault().Value==null ?new List<int>():AllYHSJ.LastOrDefault().Value;
+            var pre =  AllYHSJ.LastOrDefault().Value==null ?new List<decimal>():AllYHSJ.LastOrDefault().Value;
             
             if (AllYHSJ.Count >= n)
             {
@@ -156,10 +157,10 @@ namespace Demo
             var result = 0m;
             for (int i = AllYHSJ.Count + 1; i <= n; i++)
             {
-                var now = new List<int>();
+                var now = new List<decimal>();
                 for (int j = 1; j <= pre.Count + 1; j++)
                 {
-                    var value = 1;
+                    var value = 1m;
                     if (j > 1 && j != pre.Count + 1)
                     {
                         value = pre[j - 1 - 1] + pre[j - 1];
