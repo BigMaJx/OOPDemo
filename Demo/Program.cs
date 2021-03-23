@@ -12,7 +12,29 @@ namespace Demo
         {
             Console.WriteLine("Hello World!");
 
-            //PolymorphismTest.Show();
+            PolymorphismTest.Show();
+
+
+
+
+            for (int j = 1; j <= 20; j++)
+            {
+                Console.WriteLine($" ");
+                for (int i = 1; i <= j; i++)
+                {
+                    YangHuiSanjian.Show(j, i);
+                }
+            }
+            Console.WriteLine($" ");
+            for (int j = 1; j <= 20; j++)
+            {
+                Console.WriteLine($" ");
+                for (int i = 1; i <= j; i++)
+                {
+                    YangHuiSanjian.Show2(j, i);
+                }
+            }
+
 
             TestApollo.Show();
 
@@ -31,7 +53,7 @@ namespace Demo
             }
             catch (Exception e)
             {
-
+                throw e;
             }
         }
     }
