@@ -49,21 +49,21 @@ namespace Demo
         /// <param name="n"></param>
         /// <param name="m"></param>
         /// <returns></returns>
-        private static long Cnm(int n,int m) 
+        private static decimal Cnm(int n,int m) 
         {
-            long left = 1;
+            decimal left = 1;
             for (int i = 1; i <= n; i++)
             {
                 left = left * i;
             }
 
-            long right1 = 1;
+            decimal right1 = 1;
             for (int i = 1; i <= m; i++)
             {
                 right1 = right1 * i;
             }
 
-            long right2 = 1;
+            decimal right2 = 1;
             for (int i = 1; i <= n-m; i++)
             {
                 right2 = right2 * i;
@@ -105,8 +105,7 @@ namespace Demo
                         rights.Add(mValue);
                     }
                 }
-            }
-
+            } 
             decimal l = 1;
             foreach (var item in lefts)
             {
@@ -124,8 +123,7 @@ namespace Demo
                         rights.RemoveAt(0);
                     }
                 } 
-            }
-
+            } 
             decimal r = 1;
             foreach (var item in rights)
             {
