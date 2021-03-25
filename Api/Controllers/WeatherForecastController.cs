@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,16 +17,24 @@ namespace Api.Controllers
     [Route("[controller]/[action]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+       
         private readonly ILogger<WeatherForecastController> _logger;
-
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+        }
+
+
+        [HttpGet]
+        public ActionResult TestLog() 
+        {
+            NLog.LogManager.GetCurrentClassLogger().Info("好吧");      
+            
+            _logger.LogInformation("牛逼哈哈哈");
+            _logger.LogError("错了");
+
+
+            return null;
         }
 
         //参考 xCode Git:https://gitee.com/NewLifeX/NewLife.Cube/blob/master/NewLife.Cube/Common/ReadOnlyEntityController.cs

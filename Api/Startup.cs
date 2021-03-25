@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+            });
+
+            services.AddLogging(m => {
+                m.AddNLog();
             });
         }
 
