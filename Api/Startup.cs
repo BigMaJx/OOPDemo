@@ -34,7 +34,8 @@ namespace Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
             });
 
-            services.AddLogging(m => {
+            services.AddLogging(m =>
+            {
                 m.AddNLog();
             });
         }
