@@ -34,7 +34,7 @@ namespace Api.Controllers
             _logger.LogError("错了");
 
 
-            return null;
+            return new EmptyResult();
         }
 
         //参考 xCode Git:https://gitee.com/NewLifeX/NewLife.Cube/blob/master/NewLife.Cube/Common/ReadOnlyEntityController.cs
