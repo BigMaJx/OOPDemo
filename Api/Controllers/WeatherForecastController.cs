@@ -69,6 +69,7 @@ namespace Api.Controllers
         /// <param name="output"></param>
         private void OnExportExcel<T>(IEnumerable<T> list, Stream output)
         {
+            //注意，这里一定要有Using，不然会提前释放，导致数据丢失
             using (var csv = new StreamWriter(output, Encoding.UTF8, 1024, true))
             {
                 var headers = GetPropertyByType<T>();//反射获取DisplayName列头            
