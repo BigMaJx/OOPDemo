@@ -12,6 +12,9 @@ namespace Demo
     {
         public static void Show()
         {
+            List<int> aaaa = new List<int>();
+            //aaaa.ToLookup();
+
             One();
             Two();
             Three();

@@ -52,7 +52,7 @@ namespace Api.Controllers
             var headers = rs.Headers;
             headers[HeaderNames.ContentEncoding] = "UTF8";
             headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-            Response.Headers.Add("Content-Disposition", $"Attachment;filename=测试导出_{DateTime.Now:yyyyMMddHHmmss}.csv");
+            Response.Headers.Add("Content-Disposition", $"Attachment;filename=测试导出_{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv");
             // 允许同步IO，便于CsvFile刷数据Flush
             var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
             if (ft != null) ft.AllowSynchronousIO = true;
@@ -69,31 +69,33 @@ namespace Api.Controllers
         /// <param name="output"></param>
         private void OnExportExcel<T>(IEnumerable<T> list, Stream output)
         {
-            var csv = new StreamWriter(output, Encoding.UTF8, 1024, true);
-            var headers = GetPropertyByType<T>();//反射获取DisplayName列头            
-            var title = string.Join(",", headers.Values.ToList());
-            csv.WriteLine(title); 
-            var itemType = Activator.CreateInstance<T>().GetType();
-            // 内容
-            foreach (var entity in list)
+            using (var csv = new StreamWriter(output, Encoding.UTF8, 1024, true))
             {
-                var lineSb = new StringBuilder();
-                foreach (var item in headers)
+                var headers = GetPropertyByType<T>();//反射获取DisplayName列头            
+                var title = string.Join(",", headers.Values.ToList());
+                csv.WriteLine(title);
+                var itemType = Activator.CreateInstance<T>().GetType();
+                // 内容
+                foreach (var entity in list)
                 {
-                    var entityValue = itemType.GetProperty(item.Key);//获取对应列名
-                    if (entityValue != null)
+                    var lineSb = new StringBuilder();
+                    foreach (var item in headers)
                     {
-                        var value = entityValue.GetValue(entity);
-                        value = value == null ? string.Empty : value;
-                        lineSb.Append(value + ",");
-                    } 
+                        var entityValue = itemType.GetProperty(item.Key);//获取对应列名
+                        if (entityValue != null)
+                        {
+                            var value = entityValue.GetValue(entity);
+                            value = value == null ? string.Empty : value;
+                            lineSb.Append(value + ",");
+                        }
+                    }
+                    var result = lineSb.ToString();
+                    if (result.Length > 0)
+                    {
+                        result = result.Substring(0, result.Length - 1);
+                    }
+                    csv.WriteLine(result);
                 }
-                var result = lineSb.ToString();
-                if (result.Length > 0)
-                {
-                    result = result.Substring(0, result.Length - 1);
-                }
-                csv.WriteLine(result);
             }
         }
 
@@ -109,22 +111,24 @@ namespace Api.Controllers
         private IEnumerable<TL> GetData()
         {
             //最多1000页，再多不要了   
-            for (int i = 1; i < 1000; i++)
+            for (int i = 1; i < 2; i++)
             {
                 var list = GetList(i);
                 if (HttpContext.RequestAborted.IsCancellationRequested) yield break;
-                if (list == null || !list.Any()) break; 
+                if (list == null || !list.Any()) break;
                 foreach (var item in list)
                 {
                     yield return item;
                 }
+
+              
             }
         }
 
         private  List<TL> GetList(int page) 
         {
             List<TL> result = new List<TL>();
-            int pageSize = 5000;
+            int pageSize = 2;
             int nowI = page > 1 ? ((page - 1) * pageSize + 1) : 1;
             for (int i = 0; i < pageSize; i++)
             {

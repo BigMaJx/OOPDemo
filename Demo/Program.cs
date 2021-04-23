@@ -3,16 +3,50 @@ using Common.EatSomething;
 using Common.EatSomething.Enums;
 using Common.EatSomething.Food;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace Demo
 {
+    public static class  MyTest
+    {
+        public static int tally = 0;
+
+}
+    public class Teas {
+        
+        public void a(int b) 
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                MyTest.tally += 1;
+                Console.WriteLine($"{b}:"+ MyTest.tally);
+            }
+        }
+    }
     class Program
     {
+   
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
             //PolymorphismTest.Show();
+
+            var abaa = new Teas();
+
+            Task.Run(() =>
+            {
+                abaa.a(111);
+            });
+
+
+            Task.Run(() =>
+            {
+                abaa.a(222);
+            });
+
 
 
             //InterviewQuestionsTest.Show();
