@@ -25,6 +25,8 @@ namespace Demo
             }
         }
     }
+
+   
     class Program
     {
    
@@ -32,20 +34,25 @@ namespace Demo
         {
             Console.WriteLine("Hello World!");
 
+            //testSuanfan.Show();
+
+            testSuanfan.TestA();
+            //ClassValue.Test();
+
             //PolymorphismTest.Show();
 
-            var abaa = new Teas();
+            //var abaa = new Teas();
 
-            Task.Run(() =>
-            {
-                abaa.a(111);
-            });
+            //Task.Run(() =>
+            //{
+            //    abaa.a(111);
+            //});
 
 
-            Task.Run(() =>
-            {
-                abaa.a(222);
-            });
+            //Task.Run(() =>
+            //{
+            //    abaa.a(222);
+            //});
 
 
 
