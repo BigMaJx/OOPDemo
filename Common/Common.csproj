@@ -12,6 +12,7 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.1" />
     <PackageReference Include="NLog.Targets.ElasticSearch" Version="7.5.0" />
     <PackageReference Include="NLog.Targets.KafkaAppender" Version="1.0.8" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>

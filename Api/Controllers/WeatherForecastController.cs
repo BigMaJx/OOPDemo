@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using NLog;
@@ -25,17 +26,16 @@ namespace Api.Controllers
             _logger = logger;
         }
 
-
-        [HttpGet]
-        public ActionResult TestLog() 
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult TestLog(TL abc) 
         {
-            NLog.LogManager.GetCurrentClassLogger().Info("好吧");      
-            
-            _logger.LogInformation("牛逼哈哈哈");
-            _logger.LogError("错了");
-
-
-            return new EmptyResult();
+            var d = new TL()
+            {
+                Id = 1,
+                Name = $"吵架了:{Guid.NewGuid().ToString()}"
+            };
+            return new JsonResult(d);
         }
 
 

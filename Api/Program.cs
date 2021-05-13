@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Api
@@ -13,6 +14,10 @@ namespace Api
     {
         public static void Main(string[] args)
         {
+            int minWorker, minIOC; 
+            ThreadPool.GetMinThreads(out minWorker, out minIOC); 
+            ThreadPool.SetMinThreads(100, minIOC);
+
             CreateHostBuilder(args).Build().Run();
         }
 
