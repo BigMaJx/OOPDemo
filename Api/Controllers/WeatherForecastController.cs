@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Common;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -35,9 +38,9 @@ namespace Api.Controllers
             _tokenValidationParameters = tokenValidationParameters;
         }
 
-        
+
         [HttpPost]
-        public ActionResult TestLog(TL abc) 
+        public ActionResult TestLog(TL abc)
         {
             var d = new TL()
             {
@@ -67,7 +70,7 @@ namespace Api.Controllers
 
             var data = GetData();//获取数据
             OnExportExcel(data, rs.Body);//导出数据
-            return new EmptyResult(); 
+            return new EmptyResult();
         }
 
         /// <summary>
@@ -130,14 +133,14 @@ namespace Api.Controllers
                     yield return item;
                 }
 
-              
+
             }
         }
 
-        private  List<TL> GetList(int page) 
+        private List<TL> GetList(int page)
         {
             List<TL> result = new List<TL>();
-            int pageSize = 2;
+            int pageSize = 5000;
             int nowI = page > 1 ? ((page - 1) * pageSize + 1) : 1;
             for (int i = 0; i < pageSize; i++)
             {
@@ -151,7 +154,7 @@ namespace Api.Controllers
             return result;
         }
 
-  
+
 
         private Dictionary<string, string> GetPropertyByType<In>()
         {
@@ -176,6 +179,32 @@ namespace Api.Controllers
         }
 
 
-     
+
+        /// <summary>
+        /// 一万条数据内 好使
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult ExportExcel()
+        {
+            var data = GetList(2);
+            var memoryStream = ExcelHelper.ToExcel(data);
+            return File(memoryStream.ToArray(), "application/ms-excel", $"一键导出_{DateTime.Now.ToLongTimeString()}.xls");
+        }
+
+        /// <summary>
+        /// 导入
+        /// </summary>
+        /// <param name="file"></param>
+        [HttpPost]
+        public void Import(IFormFile file)
+        {
+            var data = ExcelHelper.GetList<TL>(file, 0);
+            Console.WriteLine("总数：" + data.Count);
+            foreach (var item in data)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(item));
+            }
+        }
     }
 }
