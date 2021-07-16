@@ -1,4 +1,6 @@
-using Api.Filters;
+锘縰sing Api.Filters;
+using Api.SecuritysDI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,11 +9,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,10 +39,13 @@ namespace Api
                 m.AddNLog(); 
             });
 
-            //接口日志处理 
+            //鎺ュ彛鏃ュ織澶勭悊 
             services.AddScoped<StringBuilder>();
             services.AddControllersWithViews(m =>
             {
+                //鍏ㄥ眬jwt 楠岃瘉
+                m.Filters.Add<MyAuthorizeFilter>();
+
                 m.Filters.Add<ActionFilter>();
                 m.Filters.Add<ExceptionFilter>();
                 m.Filters.Add<ResultFilter>();
@@ -47,9 +55,30 @@ namespace Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = JwtConstants.TokenType,
+                    Scheme = "Bearer",
+                    Description = "鍦ㄤ笅妗嗕腑杈撳叆璇锋眰澶翠腑闇�瑕佹坊鍔燡wt鎺堟潈Token锛欱earer Token"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {{
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference()
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                }
+                            }, Array.Empty<string>()
+                    }});
             });
 
-           
+            services.AddJwtService("abcdefghijklmnopqRestuvwxwz");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +97,8 @@ namespace Api
 
             //app.UseRequestResponseLog();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();            
 
             app.UseEndpoints(endpoints =>
             {

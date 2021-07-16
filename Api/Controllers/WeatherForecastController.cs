@@ -1,32 +1,41 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
+    /// <summary>
+    /// 此控制全面开放
+    /// </summary>
     [ApiController]
     [Route("[controller]/[action]")]
+    [AllowAnonymous]
     public class WeatherForecastController : ControllerBase
     {
-       
+        private TokenValidationParameters _tokenValidationParameters { get; set; }
+
         private readonly ILogger<WeatherForecastController> _logger;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, TokenValidationParameters tokenValidationParameters)
         {
             _logger = logger;
+            _tokenValidationParameters = tokenValidationParameters;
         }
 
-        [AllowAnonymous]
+        
         [HttpPost]
         public ActionResult TestLog(TL abc) 
         {
@@ -36,6 +45,24 @@ namespace Api.Controllers
                 Name = $"吵架了:{Guid.NewGuid().ToString()}"
             };
             return new JsonResult(d);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public string GetToken() 
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                      new Claim(ClaimTypes.Name,"")
+                }),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = new SigningCredentials(_tokenValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
 
