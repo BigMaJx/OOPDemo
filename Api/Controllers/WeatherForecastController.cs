@@ -181,13 +181,13 @@ namespace Api.Controllers
 
 
         /// <summary>
-        /// 一万条数据内 好使
+        /// 数据导出  一万条数据内好使
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public IActionResult ExportExcel()
         {
-            var data = GetList(2);
+            var data = GetList(1);
             var memoryStream = ExcelHelper.ToExcel(data);
             return File(memoryStream.ToArray(), "application/ms-excel", $"一键导出_{DateTime.Now.ToLongTimeString()}.xls");
         }
@@ -203,6 +203,7 @@ namespace Api.Controllers
             Console.WriteLine("总数：" + data.Count);
             foreach (var item in data)
             {
+                //控制台输出导入后转换的model
                 Console.WriteLine(JsonConvert.SerializeObject(item));
             }
         }
