@@ -8,9 +8,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
-{  /// <summary>
-   /// 鉴权中心
-   /// </summary>
+{
+    /// <summary>
+    /// 鉴权中心
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class OAuthController : ControllerBase
@@ -33,7 +34,7 @@ namespace Api.Controllers
         [HttpPost]
         public string GetToken()
         {
-            var content = "我是登录成功后 保存的内容哦："+ DateTime.Now.Ticks.ToString();
+            var content = "我是登录成功后 保存的内容哦：" + DateTime.Now.Ticks.ToString();
             var token = _jwtService.GenerateJwtToken(new Claim(ClaimTypes.Authentication, content), nameof(JwtRole.UserInfo), DateTime.Now.AddDays(2));
             return token;
         }
@@ -42,7 +43,7 @@ namespace Api.Controllers
         public string Get()
         {
             var b = User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.Authentication);
-            return "牛逼Get===jwt自带的数据："+b.Value;
+            return "牛逼Get===jwt自带的数据：" + b.Value;
         }
     }
 }

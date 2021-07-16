@@ -17,7 +17,6 @@ namespace Api.SecuritysDI
     public class MyAuthorizeFilter : IAsyncAuthorizationFilter
     {
         private JwtService _jwtService { get; set; }
-
         /// <summary>
         ///
         /// </summary>
@@ -37,7 +36,6 @@ namespace Api.SecuritysDI
                     return true;
                 }
             }
-
             // When doing endpoint routing, MVC does not add AllowAnonymousFilters for AllowAnonymousAttributes that
             // were discovered on controllers and actions. To maintain compat with 2.x,
             // we'll check for the presence of IAllowAnonymous in endpoint metadata.

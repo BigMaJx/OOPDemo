@@ -36,26 +36,21 @@ namespace Api
         {
             services.AddLogging(m =>
             {
-                m.AddNLog(); 
+                m.AddNLog();
             });
-
             //接口日志处理 
             services.AddScoped<StringBuilder>();
             services.AddControllersWithViews(m =>
             {
                 //全局jwt 验证
                 m.Filters.Add<MyAuthorizeFilter>();
-
                 m.Filters.Add<ActionFilter>();
                 m.Filters.Add<ExceptionFilter>();
                 m.Filters.Add<ResultFilter>();
             });
-
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
-
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -63,7 +58,7 @@ namespace Api
                     Type = SecuritySchemeType.ApiKey,
                     BearerFormat = JwtConstants.TokenType,
                     Scheme = "Bearer",
-                    Description = "在下框中输入请求头中需要添加Jwt授权Token：Bearer Token"
+                    Description = "输入Jwt授权Token：Bearer Token"
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {{
@@ -77,7 +72,6 @@ namespace Api
                             }, Array.Empty<string>()
                     }});
             });
-
             services.AddJwtService("abcdefghijklmnopqRestuvwxwz");
         }
 
@@ -95,17 +89,14 @@ namespace Api
 
             app.UseRouting();
 
-            //app.UseRequestResponseLog();
-
-            app.UseAuthentication();
-            app.UseAuthorization();            
+          
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            
+
         }
     }
 }
