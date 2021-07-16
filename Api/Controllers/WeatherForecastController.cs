@@ -47,25 +47,6 @@ namespace Api.Controllers
             return new JsonResult(d);
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public string GetToken() 
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                      new Claim(ClaimTypes.Name,"")
-                }),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = new SigningCredentials(_tokenValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
-
 
         //参考 xCode Git:https://gitee.com/NewLifeX/NewLife.Cube/blob/master/NewLife.Cube/Common/ReadOnlyEntityController.cs
         /// <summary>
